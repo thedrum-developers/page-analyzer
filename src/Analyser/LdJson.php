@@ -9,7 +9,7 @@ class LdJson implements AnalyserInterface
     public function analyse($content)
     {
         if (!preg_match_all('/<script[^>]*?type="application\/ld\+json">(.*?)<\/script>/i', $content, $metaMatches)) {
-            return [];
+            return array();
         }
 
         $data = array();

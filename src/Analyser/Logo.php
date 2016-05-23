@@ -9,7 +9,7 @@ class Logo implements AnalyserInterface
     public function analyse($content)
     {
         if (!preg_match_all('/<link[^>]*?rel="(apple-touch-icon|icon).*?>/i', $content, $metaMatches)) {
-            return [];
+            return array();
         }
 
         $logos = array();

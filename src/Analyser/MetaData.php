@@ -9,7 +9,7 @@ class MetaData implements AnalyserInterface
     public function analyse($content)
     {
         if (!preg_match_all('/<meta[^>]*?(name|property).*?>/i', $content, $metaMatches)) {
-            return false;
+            return array();
         }
 
         $data = array();
