@@ -1,0 +1,66 @@
+<?php
+
+namespace Cas\PageAnalyser;
+
+use GuzzleHttp\Client as GuzzleClient;
+
+class PageAnalyser
+{
+    protected $guzzle;
+    protected $analysers = array();
+
+    public function __construct($analysers = array())
+    {
+        $this->guzzle = new GuzzleClient();
+
+        if (!$analysers) {
+            $this->setDefaultAnalysers();
+        }
+    }
+
+    public function setAnalysers(array $analysers)
+    {
+        $this->analysers = $analysers;
+    }
+
+    public function analyse($content, $url = '')
+    {
+        $urlParts = explode('/', $url);
+        $domain = implode('/', array_slice($urlParts, 0, 3));
+
+        $data = array();
+
+        foreach ($this->analysers as $analyserClass) {
+            $analyser = new $analyserClass();
+            $data['content'][$analyserClass] = $analyser->analyse($content);
+        }
+
+        return $data;
+    }
+
+    public function fetchAndAnalise($url)
+    {
+        try {
+            $response = $this->guzzle->get($url);
+
+            $data = array();
+            if ($response->getStatusCode() == 200) {
+                $data = $this->analyse($response->getBody(), $url);
+                $data['headers'] = $response->getHeaders();
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            return array();
+        }
+    }
+
+    protected function setDefaultAnalysers()
+    {
+        $this->setAnalysers([
+            "Cas\PageAnalyser\Analyser\LdJson",
+            "Cas\PageAnalyser\Analyser\MetaData",
+            "Cas\PageAnalyser\Analyser\Logo",
+        ]);
+    }
+}

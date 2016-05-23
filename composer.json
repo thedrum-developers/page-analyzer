@@ -1,0 +1,27 @@
+{
+    "name": "chrisshennan/page-analyser",
+    "type": "library",
+    "description": "A simple, extendable page analyser written in PHP",
+    "keywords": [
+        "analyser",
+        "meta tags",
+        "ld json",
+        "schema.org"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Shennan",
+            "email": "chris@chrisshennan.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cas\\PageAnalyser\\": "src/"
+        }
+    }
+}
