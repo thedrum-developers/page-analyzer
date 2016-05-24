@@ -23,10 +23,9 @@ class PageAnalyser
         $this->analysers = $analysers;
     }
 
-    public function analyse($content, $url = '')
+    public function analyse($content)
     {
-        $urlParts = explode('/', $url);
-        $domain = implode('/', array_slice($urlParts, 0, 3));
+        $content = str_replace("\n", "", $content);
 
         $data = array();
 
@@ -58,7 +57,7 @@ class PageAnalyser
     protected function setDefaultAnalysers()
     {
         $this->setAnalysers([
-            "Cas\PageAnalyser\Analyser\LdJson",
+            "Cas\PageAnalyser\Analyser\JsonLd",
             "Cas\PageAnalyser\Analyser\MetaData",
             "Cas\PageAnalyser\Analyser\Logo",
         ]);

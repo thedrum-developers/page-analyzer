@@ -8,17 +8,17 @@ class MetaData implements AnalyserInterface
 {
     public function analyse($content)
     {
-        if (!preg_match_all('/<meta[^>]*?(name|property).*?>/i', $content, $metaMatches)) {
+        if (!preg_match_all('/<meta[^>]*?(name|property).*?>/i', $content, $matches)) {
             return array();
         }
 
         $data = array();
         $dom = new \DOMDocument();
 
-        foreach ($metaMatches[0] as $index => $match) {
+        foreach ($matches[0] as $index => $match) {
             $dom->loadHTML($match);
 
-            $name = $dom->getElementsByTagName('meta')->item(0)->getAttribute($metaMatches[1][$index]);
+            $name = $dom->getElementsByTagName('meta')->item(0)->getAttribute($matches[1][$index]);
             $content = $dom->getElementsByTagName('meta')->item(0)->getAttribute('content');
 
             $nameParts = explode(':', $name);

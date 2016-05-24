@@ -4,26 +4,26 @@ namespace Cas\PageAnalyser\Analyser;
 
 use Cas\PageAnalyser\Analyser\AnalyserInterface;
 
-class LdJson implements AnalyserInterface
+class JsonLd implements AnalyserInterface
 {
     public function analyse($content)
     {
-        if (!preg_match_all('/<script[^>]*?type="application\/ld\+json">(.*?)<\/script>/i', $content, $metaMatches)) {
+        if (!preg_match_all('/<script[^>]*?type="application\/ld\+json">(.*?)<\/script>/i', $content, $matches)) {
             return array();
         }
 
         $data = array();
-        foreach ($metaMatches[1] as $match) {
+        foreach ($matches[1] as $match) {
             $extractedData = json_decode($match);
 
-            if (get_class($extractedData[0]) == 'stdClass') {
+            if (get_class($extractedData) == 'stdClass') {
+                $data[] = json_decode($match, true);
+            } elseif (is_array($extractedData)) {
                 $extractedData = json_decode($match, true);
 
                 foreach ($extractedData as $extractedDataElement) {
                     $data[] = $extractedDataElement;
                 }
-            } else {
-                $data[] = json_decode($match, true);
             }
         }
 

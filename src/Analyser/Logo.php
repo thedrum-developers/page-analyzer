@@ -8,14 +8,14 @@ class Logo implements AnalyserInterface
 {
     public function analyse($content)
     {
-        if (!preg_match_all('/<link[^>]*?rel="(apple-touch-icon|icon).*?>/i', $content, $metaMatches)) {
+        if (!preg_match_all('/<link[^>]*?rel="(apple-touch-icon|icon).*?>/i', $content, $matches)) {
             return array();
         }
 
         $logos = array();
         $dom = new \DOMDocument();
 
-        foreach ($metaMatches[0] as $match) {
+        foreach ($matches[0] as $match) {
             $dom->loadHTML($match);
             $src = $dom->getElementsByTagName('link')->item(0)->getAttribute('href');
             $size = $dom->getElementsByTagName('link')->item(0)->getAttribute('sizes');
