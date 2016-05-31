@@ -13,7 +13,9 @@ class PageAnalyser
     {
         $this->guzzle = new GuzzleClient();
 
-        if (!$analysers) {
+        if ($analysers) {
+            $this->setAnalysers($analysers);
+        } else {
             $this->setDefaultAnalysers();
         }
     }
