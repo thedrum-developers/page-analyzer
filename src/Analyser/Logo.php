@@ -18,6 +18,7 @@ class Logo implements AnalyserInterface
         foreach ($matches[0] as $match) {
             $dom->loadHTML($match);
             $src = $dom->getElementsByTagName('link')->item(0)->getAttribute('href');
+            $rel = $dom->getElementsByTagName('link')->item(0)->getAttribute('rel');
             $size = $dom->getElementsByTagName('link')->item(0)->getAttribute('sizes');
 
             if (substr($src, -4) == '.ico') {
@@ -25,7 +26,7 @@ class Logo implements AnalyserInterface
             }
             $size = explode('x', $size);
 
-            $logos[$size[0]] = $src;
+            $logos[$rel][$size[0]] = $src;
         }
 
         krsort($logos);
