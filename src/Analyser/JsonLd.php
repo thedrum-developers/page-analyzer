@@ -16,7 +16,7 @@ class JsonLd implements AnalyserInterface
         foreach ($matches[1] as $match) {
             $extractedData = json_decode($match);
 
-            if (get_class($extractedData) == 'stdClass') {
+            if (is_object($extractedData) && get_class($extractedData) == 'stdClass') {
                 $data[] = json_decode($match, true);
             } elseif (is_array($extractedData)) {
                 $extractedData = json_decode($match, true);

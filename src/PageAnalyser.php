@@ -4,14 +4,14 @@ namespace Cas\PageAnalyser;
 
 use GuzzleHttp\Client as GuzzleClient;
 
-class PageAnalyser
+class PageAnalyser implements PageAnalyserInterface
 {
     protected $guzzle;
     protected $analysers = array();
 
     public function __construct($analysers = array())
     {
-        $this->guzzle = new GuzzleClient();
+        $this->guzzle = new GuzzleClient(['allow_redirects' => ['track_redirects' => true]]);
 
         if ($analysers) {
             $this->setAnalysers($analysers);
@@ -39,7 +39,7 @@ class PageAnalyser
         return $data;
     }
 
-    public function fetchAndAnalise($url)
+    public function fetchAndAnalise($url, $followCanonical = false)
     {
         try {
             $response = $this->guzzle->get($url);
@@ -47,6 +47,23 @@ class PageAnalyser
             $data = array();
             if ($response->getStatusCode() == 200) {
                 $data = $this->analyse($response->getBody(), $url);
+                $data['effectiveUrl'] = $url;
+
+                // Check for a canonical reference
+                if (isset($data['content']['Cas\PageAnalyser\Analyser\LinkPage'])) {
+                    foreach ($data['content']['Cas\PageAnalyser\Analyser\LinkPage'] as $link) {
+                        if ($link['rel'] == 'canonical') {
+                            $data['effectiveUrl'] = $link['href'];
+                        }
+                    }
+                } else {
+                    // Check for any 301's
+                    $redirects = $response->getHeader(\GuzzleHttp\RedirectMiddleware::HISTORY_HEADER);
+                    if (count($redirects)) {
+                        $data['effectiveUrl'] = end($redirects);
+                    }
+                }
+
                 $data['headers'] = $response->getHeaders();
             }
 
@@ -61,6 +78,7 @@ class PageAnalyser
         $this->setAnalysers([
             "Cas\PageAnalyser\Analyser\JsonLd",
             "Cas\PageAnalyser\Analyser\MetaData",
+            "Cas\PageAnalyser\Analyser\LinkPage",
             "Cas\PageAnalyser\Analyser\Logo",
         ]);
     }
