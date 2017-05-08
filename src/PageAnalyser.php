@@ -27,24 +27,31 @@ class PageAnalyser implements PageAnalyserInterface
 
     public function analyse($content)
     {
+        // Replace all HTML entities except < and >
+        $translationList = get_html_translation_table(HTML_ENTITIES);
+        unset($translationList['<'], $translationList['>']);
+        $content = strtr($content, $translationList);
         $content = str_replace("\n", "", $content);
 
         $data = array();
 
+        // Get the content of each analyser
         foreach ($this->analysers as $analyserClass) {
             $analyser = new $analyserClass();
             $data['content'][$analyserClass] = $analyser->analyse($content);
         }
 
+        // Return all the analysis
         return $data;
     }
 
-    public function fetchAndAnalise($url, $followCanonical = false)
+    public function fetchAndAnalise(string $url, $followCanonical = false)
     {
         try {
             $response = $this->guzzle->get($url);
 
             $data = array();
+
             if ($response->getStatusCode() == 200) {
                 $data = $this->analyse($response->getBody(), $url);
                 $data['effectiveUrl'] = $url;
