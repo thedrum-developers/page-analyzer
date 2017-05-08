@@ -27,10 +27,6 @@ class PageAnalyser implements PageAnalyserInterface
 
     public function analyse($content)
     {
-        // Replace all HTML entities except < and >
-        $translationList = get_html_translation_table(HTML_ENTITIES);
-        unset($translationList['<'], $translationList['>']);
-        $content = strtr($content, $translationList);
         $content = str_replace("\n", "", $content);
 
         $data = array();
@@ -40,44 +36,39 @@ class PageAnalyser implements PageAnalyserInterface
             $analyser = new $analyserClass();
             $data['content'][$analyserClass] = $analyser->analyse($content);
         }
-
         // Return all the analysis
         return $data;
     }
 
     public function fetchAndAnalise(string $url, $followCanonical = false)
     {
-        try {
-            $response = $this->guzzle->get($url);
+        $response = $this->guzzle->get($url);
 
-            $data = array();
+        $data = array();
 
-            if ($response->getStatusCode() == 200) {
-                $data = $this->analyse($response->getBody(), $url);
-                $data['effectiveUrl'] = $url;
+        if ($response->getStatusCode() == 200) {
+            $data = $this->analyse($response->getBody(), $url);
+            $data['effectiveUrl'] = $url;
 
-                // Check for a canonical reference
-                if (isset($data['content']['Cas\PageAnalyser\Analyser\LinkPage'])) {
-                    foreach ($data['content']['Cas\PageAnalyser\Analyser\LinkPage'] as $link) {
-                        if ($link['rel'] == 'canonical') {
-                            $data['effectiveUrl'] = $link['href'];
-                        }
-                    }
-                } else {
-                    // Check for any 301's
-                    $redirects = $response->getHeader(\GuzzleHttp\RedirectMiddleware::HISTORY_HEADER);
-                    if (count($redirects)) {
-                        $data['effectiveUrl'] = end($redirects);
+            // Check for a canonical reference
+            if (isset($data['content']['Cas\PageAnalyser\Analyser\LinkPage'])) {
+                foreach ($data['content']['Cas\PageAnalyser\Analyser\LinkPage'] as $link) {
+                    if ($link['rel'] == 'canonical') {
+                        $data['effectiveUrl'] = $link['href'];
                     }
                 }
-
-                $data['headers'] = $response->getHeaders();
+            } else {
+                // Check for any 301's
+                $redirects = $response->getHeader(\GuzzleHttp\RedirectMiddleware::HISTORY_HEADER);
+                if (count($redirects)) {
+                    $data['effectiveUrl'] = end($redirects);
+                }
             }
 
-            return $data;
-        } catch (\Exception $e) {
-            return array();
+            $data['headers'] = $response->getHeaders();
         }
+
+        return $data;
     }
 
     protected function setDefaultAnalysers()
