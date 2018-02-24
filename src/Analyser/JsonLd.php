@@ -2,11 +2,19 @@
 
 namespace Cas\PageAnalyser\Analyser;
 
-use Cas\PageAnalyser\Analyser\AnalyserInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class JsonLd implements AnalyserInterface
+/**
+ * Class JsonLd
+ * @package Cas\PageAnalyser\Analyser
+ */
+class JsonLd extends BaseAnalyser
 {
-    public function analyse($content)
+    /**
+     * @param string $content
+     * @return array
+     */
+    public function analyse(string $content) : array
     {
         if (!preg_match_all('/<script[^>]*?type="application\/ld\+json">(.*?)<\/script>/i', $content, $matches)) {
             return array();

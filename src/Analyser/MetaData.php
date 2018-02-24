@@ -2,11 +2,20 @@
 
 namespace Cas\PageAnalyser\Analyser;
 
-use Cas\PageAnalyser\Analyser\AnalyserInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class MetaData implements AnalyserInterface
+/**
+ * Class MetaData
+ * @package Cas\PageAnalyser\Analyser
+ */
+class MetaData extends BaseAnalyser
 {
-    public function analyse($content)
+
+    /**
+     * @param string $content
+     * @return array
+     */
+    public function analyse(string $content) : array
     {
         if (!preg_match_all('/<meta[^>]*?(name|property).*?>/i', $content, $matches)) {
             return array();
