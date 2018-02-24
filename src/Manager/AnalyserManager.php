@@ -1,9 +1,11 @@
 <?php
 
-namespace Cas\PageAnalyser;
+namespace Cas\PageAnalyser\Manager;
 
 use Cas\PageAnalyser\Analyser\AnalyserInterface;
+use Cas\PageAnalyser\Entity\Analysis;
 use Cas\PageAnalyser\Exception\NoAnalysersConfiguredException;
+use Cas\PageAnalyser\Factory\AnalyserFactory;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,10 +20,9 @@ class AnalyserManager implements AnalyserManagerInterface
      */
     protected $guzzle;
 
-    /**
-     * @var array
-     */
-    protected $analysers = [];
+
+    protected $factory;
+
 
     /**
      * AnalyserManager constructor.
@@ -89,7 +90,10 @@ class AnalyserManager implements AnalyserManagerInterface
 
         // Gather all the data from each analyser
         foreach ($this->analysers as $analyser) {
-            $data['analysers'][] = $analyser->analyseResponse($response);
+            $analysis = new Analysis($analyser);
+            $analysis->setResponse($response)->analyseResponse();
+
+            $data[] = $analysis;
         }
 
         // Return all the analysis

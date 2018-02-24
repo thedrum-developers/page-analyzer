@@ -18,16 +18,25 @@ composer require chrisshennan/page-analyser dev-master
 ## Basic Usage
 
 Analyse a live page
+
+Set the list of analysers when creating the PageAnalyser.
+
 ```
-$analyser = new \Cas\PageAnalyser\PageAnalyser();
-$analysis = $analyser->fetchAndAnalise('http://insidethe.agency');
+$loader = require __DIR__.'/vendor/autoload.php';
+
+$url ='https://shoutabout.it';
+
+$analyserFactory = new \Cas\PageAnalyser\Factory\AnalyserFactory();
+$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\MetaData');
+$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\Logo');
+
+$analyserManager = $analyserFactory->createManager();
+$data = $analyserManager->analyse($url);
 ```
 
 Analyse local content
 ```
-$content = 'SOME HTML CONTENT';
-$analyser = new \Cas\PageAnalyser\PageAnalyser();
-$analysis = $analyser->analyse($content);
+???
 ```
 
 ## Custom Analysers
@@ -36,31 +45,28 @@ Create the new analyser class
 ```
 namespace App\Analyser;
 
-use Cas\PageAnalyser\Analyser\AnalyserInterface;
+use Cas\PageAnalyser\Analyser\BaseAnalyser;
 
-class MyCustomAnalyser implements AnalyserInterface
+class MyCustomAnalyser extends BaseAnalyser
 {
-    // Return an array of data with the results of the analysis
-    public function analyse($content)
+    public function analyse(string $content) : array
     {
         ...
     }
 }
 ```
 
-Set the list of analysers when creating the PageAnalyser.
-
+Add the analysers to the list of analysers
 ```
-$analysers = array(
-    "Cas\PageAnalyser\Analyser\JsonLd",
-    "Cas\PageAnalyser\Analyser\MetaData",
-    "Cas\PageAnalyser\Analyser\Logo",
-    "App\Analyser\MyCustomAnalyser",
-);
+$loader = require __DIR__.'/vendor/autoload.php';
 
-$analyser = new \Cas\PageAnalyser\PageAnalyser($analysers);
-$analysis = $analyser->fetchAndAnalise('http://insidethe.agency');
+$url ='https://shoutabout.it';
+
+$analyserFactory = new \Cas\PageAnalyser\Factory\AnalyserFactory();
+$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\MetaData');
+$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\Logo');
+$analyserFactory->addAnalyserReference('\App\Analyser\MyCustomAnalyser');
+
+$analyserManager = $analyserFactory->createManager();
+$data = $analyserManager->analyse($url);
 ```
-
-The first 3 are the default enabled analysers but any or all of these
-can be omitted.  Simply pass in the list of required analysers to the constructor.

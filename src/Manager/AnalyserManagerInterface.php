@@ -1,6 +1,6 @@
 <?php
 
-namespace Cas\PageAnalyser;
+namespace Cas\PageAnalyser\Manager;
 
 interface AnalyserManagerInterface
 {

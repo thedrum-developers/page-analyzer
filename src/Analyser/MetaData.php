@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class MetaData extends BaseAnalyser
 {
-
     /**
      * @param string $content
      * @return array
