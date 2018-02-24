@@ -1,6 +1,7 @@
 language: php
 
 php:
+  - 5.6
   - 7.0
   - 7.1
   - nightly
@@ -8,4 +9,4 @@ php:
 install:
   - composer install
 
-script: script: phpunit --configuration phpunit.xml.dist
+script: phpunit --configuration phpunit.xml.dist
