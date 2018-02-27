@@ -18,7 +18,11 @@ class ResponseHeader extends BaseAnalyser
      */
     public function analyseResponse(ResponseInterface $response) : array
     {
-        return $response->getHeaders();
+        // Response headers are case insensitive so lower case them for consistency.
+        // See: https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
+
+        $headers = array_change_key_case($response->getHeaders(), CASE_LOWER);
+        return $headers;
     }
 
     /**
