@@ -65,16 +65,25 @@ class Analysis
     /**
      * @return array
      */
-    public function analyseResponse() : array
+    public function analyseResponse() : Analysis
     {
-        return $this->analyser->analyseResponse($this->response);
+        $this->data = $this->analyser->analyseResponse($this->response);
+
+        return $this;
     }
 
     /**
      * @return array
      */
-    public function analyse() : array
+    public function analyse(string $string) : Analysis
     {
-        return $this->analyser->analyse($string);
+        $this->data = $this->analyser->analyse($string);
+
+        return $this;
+    }
+
+    public function getData() : array
+    {
+        return $this->data;
     }
 }

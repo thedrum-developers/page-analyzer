@@ -86,17 +86,17 @@ class AnalyserManager implements AnalyserManagerInterface
             return [];
         }
 
-        $data = [];
+        $analysisCollection = [];
 
         // Gather all the data from each analyser
         foreach ($this->analysers as $analyser) {
             $analysis = new Analysis($analyser);
             $analysis->setResponse($response)->analyseResponse();
 
-            $data[] = $analysis;
+            $analysisCollection[get_class($analyser)] = $analysis;
         }
 
         // Return all the analysis
-        return $data;
+        return $analysisCollection;
     }
 }
