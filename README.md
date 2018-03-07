@@ -31,7 +31,7 @@ $analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\MetaData');
 $analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\Logo');
 
 $analyserManager = $analyserFactory->createManager();
-$data = $analyserManager->analyse($url);
+$data = $analyserManager->analyse($url)->getAnalysis();
 ```
 
 Analyse local content
@@ -68,5 +68,5 @@ $analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\Logo');
 $analyserFactory->addAnalyserReference('\App\Analyser\MyCustomAnalyser');
 
 $analyserManager = $analyserFactory->createManager();
-$data = $analyserManager->analyse($url);
+$data = $analyserManager->analyse($url)->getAnalysis();
 ```
