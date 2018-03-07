@@ -20,8 +20,9 @@ class AnalyserManager implements AnalyserManagerInterface
      */
     protected $guzzle;
 
-
     protected $factory;
+
+    protected $analysis = [];
 
 
     /**
@@ -71,7 +72,7 @@ class AnalyserManager implements AnalyserManagerInterface
      * @return array
      * @throws NoAnalysersConfiguredException
      */
-    public function analyse(string $url) : array
+    public function analyse(string $url) : AnalyserManager
     {
         // Check to make sure we have analysers configured
         if (count($this->analysers) === 0) {
@@ -97,6 +98,14 @@ class AnalyserManager implements AnalyserManagerInterface
         }
 
         // Return all the analysis
-        return $analysisCollection;
+        $this->analysis = $analysisCollection;
+
+        return $this;
     }
+
+    public function getAnalysis() : array
+    {
+        return $this->analysis;
+    }
+
 }
