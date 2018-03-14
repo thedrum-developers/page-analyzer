@@ -28,9 +28,20 @@ abstract class BaseAnalyser implements AnalyserInterface
      */
     protected function extractBody(ResponseInterface $response) : string
     {
+        $replacements = $this->getCleanupList();
+        
         $content = $response->getBody();
-        $content = str_replace("\n", "", $content);
+
+        $content = str_replace(array_keys($replacements), $replacements, $content);
 
         return $content;
+    }
+
+    protected function getCleanupList()
+    {
+        return [
+            "\r\n"  => '',
+            "\n"    => '',
+        ];
     }
 }
