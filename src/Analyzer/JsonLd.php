@@ -1,20 +1,20 @@
 <?php
 
-namespace Cas\PageAnalyser\Analyser;
+namespace Cas\PageAnalyzer\Analyzer;
 
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class JsonLd
- * @package Cas\PageAnalyser\Analyser
+ * @package Cas\PageAnalyzer\Analyzer
  */
-class JsonLd extends BaseAnalyser
+class JsonLd extends BaseAnalyzer
 {
     /**
      * @param string $content
      * @return array
      */
-    public function analyse(string $content) : array
+    public function analyze(string $content) : array
     {
         if (!preg_match_all('/<script[^>]*?type="application\/ld\+json">(.*?)<\/script>/i', $content, $matches)) {
             return array();

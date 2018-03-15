@@ -1,10 +1,13 @@
 {
-    "name": "chrisshennan/page-analyser",
+    "name": "chrisshennan/page-analyzer",
     "type": "library",
-    "description": "A simple, extendable page analyser written in PHP",
+    "description": "A simple, extendable page analyzer written in PHP",
     "keywords": [
         "analyser",
+        "analyzer",
         "meta tags",
+        "open graph",
+        "twitter cards",
         "json-ld",
         "schema.org"
     ],
@@ -12,7 +15,9 @@
     "authors": [
         {
             "name": "Chris Shennan",
-            "email": "chris@chrisshennan.com"
+            "email": "chris@chrisshennan.com",
+            "homepage": "https://www.chrisshennan.com",
+            "role": "Developer"
         }
     ],
     "minimum-stability": "dev",
@@ -22,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Cas\\PageAnalyser\\": "src/"
+            "Cas\\PageAnalyzer\\": "src/"
         }
     }
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace Cas\PageAnalyser\Analyser;
+namespace Cas\PageAnalyzer\Analyzer;
 
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Canonical
- * @package Cas\PageAnalyser\Analyser
+ * @package Cas\PageAnalyzer\Analyzer
  */
-class Canonical extends BaseAnalyser
+class Canonical extends BaseAnalyzer
 {
     /**
      * @param string $content
      * @return array
      */
-    public function analyse(string $content) : array
+    public function analyze(string $content) : array
     {
         // Check the page source for a canonical link
         if (preg_match_all('/<link[^>]*?rel="canonical.*?>/i', $content, $matches)) {

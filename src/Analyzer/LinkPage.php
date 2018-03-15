@@ -1,20 +1,20 @@
 <?php
 
-namespace Cas\PageAnalyser\Analyser;
+namespace Cas\PageAnalyzer\Analyzer;
 
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class LinkPage
- * @package Cas\PageAnalyser\Analyser
+ * @package Cas\PageAnalyzer\Analyzer
  */
-class LinkPage extends BaseAnalyser
+class LinkPage extends BaseAnalyzer
 {
     /**
      * @param string $content
      * @return array
      */
-    public function analyse(string $content) : array
+    public function analyze(string $content) : array
     {
         if (!preg_match_all('/<link[^>]*?rel="alternate.*?>/i', $content, $matches)) {
             return array();

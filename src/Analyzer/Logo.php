@@ -1,20 +1,20 @@
 <?php
 
-namespace Cas\PageAnalyser\Analyser;
+namespace Cas\PageAnalyzer\Analyzer;
 
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Logo
- * @package Cas\PageAnalyser\Analyser
+ * @package Cas\PageAnalyzer\Analyzer
  */
-class Logo extends BaseAnalyser
+class Logo extends BaseAnalyzer
 {
     /**
      * @param string $content
      * @return array
      */
-    public function analyse(string $content) : array
+    public function analyze(string $content) : array
     {
         if (!preg_match_all('/<link[^>]*?rel="(apple-touch-icon|icon).*?>/i', $content, $matches)) {
             return array();

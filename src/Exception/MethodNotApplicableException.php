@@ -1,6 +1,6 @@
 <?php
 
-namespace Cas\PageAnalyser\Exception;
+namespace Cas\PageAnalyzer\Exception;
 
 class MethodNotApplicableException extends \Exception
 {

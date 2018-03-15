@@ -1,22 +1,22 @@
 <?php
 
-namespace Cas\PageAnalyser\Analyser;
+namespace Cas\PageAnalyzer\Analyzer;
 
-use Cas\PageAnalyser\Exception\MethodNotApplicableException;
+use Cas\PageAnalyzer\Exception\MethodNotApplicableException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class ResponseHeader
- * @package Cas\PageAnalyser\Analyser
+ * @package Cas\PageAnalyzer\Analyzer
  */
-class ResponseHeader extends BaseAnalyser
+class ResponseHeader extends BaseAnalyzer
 {
 
     /**
      * @param ResponseInterface $response
      * @return array
      */
-    public function analyseResponse(ResponseInterface $response) : array
+    public function analyzeResponse(ResponseInterface $response) : array
     {
         // Response headers are case insensitive so lower case them for consistency.
         // See: https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
@@ -30,7 +30,7 @@ class ResponseHeader extends BaseAnalyser
      * @return array
      * @throws MethodNotApplicableException
      */
-    public function analyse(string $content): array
+    public function analyze(string $content): array
     {
         throw new MethodNotApplicableException();
     }

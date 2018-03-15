@@ -1,13 +1,13 @@
 <?php
 
-namespace Cas\PageAnalyser\Entity;
+namespace Cas\PageAnalyzer\Entity;
 
-use Cas\PageAnalyser\Analyser\AnalyserInterface;
+use Cas\PageAnalyzer\Analyzer\AnalyzerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Analysis
- * @package Cas\PageAnalyser\Entity
+ * @package Cas\PageAnalyzer\Entity
  */
 class Analysis
 {
@@ -17,9 +17,9 @@ class Analysis
     protected $response;
 
     /**
-     * @var AnalyserInterface
+     * @var AnalyzerInterface
      */
-    protected $analyser;
+    protected $analyzer;
 
     /**
      * @var
@@ -28,19 +28,19 @@ class Analysis
 
     /**
      * Analysis constructor.
-     * @param AnalyserInterface $analyser
+     * @param AnalyzerInterface $analyzer
      */
-    public function __construct(AnalyserInterface $analyser)
+    public function __construct(AnalyzerInterface $analyzer)
     {
-        $this->analyser = $analyser;
+        $this->analyzer = $analyzer;
     }
 
     /**
-     * @return AnalyserInterface
+     * @return AnalyzerInterface
      */
-    public function getAnalyser() : AnalyserInterface
+    public function getAnalyzer() : AnalyzerInterface
     {
-        return $this->analyser;
+        return $this->analyzer;
     }
 
     /**
@@ -65,9 +65,9 @@ class Analysis
     /**
      * @return array
      */
-    public function analyseResponse() : Analysis
+    public function analyzeResponse() : Analysis
     {
-        $this->data = $this->analyser->analyseResponse($this->response);
+        $this->data = $this->analyzer->analyzeResponse($this->response);
 
         return $this;
     }
@@ -75,9 +75,9 @@ class Analysis
     /**
      * @return array
      */
-    public function analyse(string $string) : Analysis
+    public function analyze(string $string) : Analysis
     {
-        $this->data = $this->analyser->analyse($string);
+        $this->data = $this->analyzer->analyze($string);
 
         return $this;
     }

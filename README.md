@@ -1,72 +1,72 @@
-# Page Analyser
+# Page Analyzer
 
-A simple, extensible page analyser written in PHP.
+A simple, extensible page analyzer written in PHP.
 
-Analyses HTML markup and extracts common attributes such as
+Analyzes HTML markup and extracts common attributes such as
 
  - Meta Tags including OpenGraph tags, Twitter Cards etc
  - JSON-LD
  - Apple Icons / favicon
 
-Easily extensible by adding your own custom analysers.
+Easily extensible by adding your own custom analyzers.
 
 ## Installation
 ```
-composer require chrisshennan/page-analyser dev-master
+composer require chrisshennan/page-analyzer dev-master
 ```
 
 ## Basic Usage
 
-Analyse a live page
+Analyze a live page
 
-Set the list of analysers when creating the PageAnalyser.
+Set the list of analyzers when creating the PageAnalyzer.
 
 ```
 $loader = require __DIR__.'/vendor/autoload.php';
 
 $url ='https://shoutabout.it';
 
-$analyserFactory = new \Cas\PageAnalyser\Factory\AnalyserFactory();
-$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\MetaData');
-$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\Logo');
+$analyzerFactory = new \Cas\PageAnalyzer\Factory\AnalyzerFactory();
+$analyzerFactory->addAnalyzerReference('\Cas\PageAnalyzer\Analyzer\MetaData');
+$analyzerFactory->addAnalyzerReference('\Cas\PageAnalyzer\Analyzer\Logo');
 
-$analyserManager = $analyserFactory->createManager();
-$data = $analyserManager->analyse($url)->getAnalysis();
+$analyzerManager = $analyzerFactory->createManager();
+$data = $analyzerManager->analyze($url)->getAnalysis();
 ```
 
-Analyse local content
+Analyze local content
 ```
 ???
 ```
 
-## Custom Analysers
+## Custom Analyzers
 
-Create the new analyser class
+Create the new analyzer class
 ```
-namespace App\Analyser;
+namespace App\Analyzer;
 
-use Cas\PageAnalyser\Analyser\BaseAnalyser;
+use Cas\PageAnalyzer\Analyzer\BaseAnalyzer;
 
-class MyCustomAnalyser extends BaseAnalyser
+class MyCustomAnalyzer extends BaseAnalyzer
 {
-    public function analyse(string $content) : array
+    public function analyze(string $content) : array
     {
         ...
     }
 }
 ```
 
-Add the analysers to the list of analysers
+Add the analyzers to the list of analyzers
 ```
 $loader = require __DIR__.'/vendor/autoload.php';
 
 $url ='https://shoutabout.it';
 
-$analyserFactory = new \Cas\PageAnalyser\Factory\AnalyserFactory();
-$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\MetaData');
-$analyserFactory->addAnalyserReference('\Cas\PageAnalyser\Analyser\Logo');
-$analyserFactory->addAnalyserReference('\App\Analyser\MyCustomAnalyser');
+$analyzerFactory = new \Cas\PageAnalyzer\Factory\AnalyzerFactory();
+$analyzerFactory->addAnalyzerReference('\Cas\PageAnalyzer\Analyzer\MetaData');
+$analyzerFactory->addAnalyzerReference('\Cas\PageAnalyzer\Analyzer\Logo');
+$analyzerFactory->addAnalyzerReference('\App\Analyzer\MyCustomAnalyzer');
 
-$analyserManager = $analyserFactory->createManager();
-$data = $analyserManager->analyse($url)->getAnalysis();
+$analyzerManager = $analyzerFactory->createManager();
+$data = $analyzerManager->analyze($url)->getAnalysis();
 ```

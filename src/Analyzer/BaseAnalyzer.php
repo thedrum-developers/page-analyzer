@@ -1,25 +1,25 @@
 <?php
 
-namespace Cas\PageAnalyser\Analyser;
+namespace Cas\PageAnalyzer\Analyzer;
 
-use Cas\PageAnalyser\Analyser\AnalyserInterface;
+use Cas\PageAnalyzer\Analyzer\AnalyzerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Class BaseAnalyser
- * @package Cas\PageAnalyser\Analyser
+ * Class BaseAnalyzer
+ * @package Cas\PageAnalyzer\Analyzer
  */
-abstract class BaseAnalyser implements AnalyserInterface
+abstract class BaseAnalyzer implements AnalyzerInterface
 {
     /**
      * @param ResponseInterface $response
      * @return array
      */
-    public function analyseResponse(ResponseInterface $response) : array
+    public function analyzeResponse(ResponseInterface $response) : array
     {
         $content = $this->extractBody($response);
 
-        return $this->analyse($content);
+        return $this->analyze($content);
     }
 
     /**
