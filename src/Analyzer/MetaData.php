@@ -29,13 +29,7 @@ class MetaData extends BaseAnalyzer
             $name = $dom->getElementsByTagName('meta')->item(0)->getAttribute($matches[1][$index]);
             $content = $dom->getElementsByTagName('meta')->item(0)->getAttribute('content');
 
-            $nameParts = explode(':', $name);
-
-            if (count($nameParts) == 1) {
-                $data[$name] = $content;
-            } else {
-                $data[$nameParts[0]][$name] = $content;
-            }
+            $data[$name] = $content;
         }
 
         return $data;
