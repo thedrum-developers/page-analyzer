@@ -16,7 +16,7 @@ class LinkPage extends BaseAnalyzer
      */
     public function analyze(string $content) : array
     {
-        if (!preg_match_all('/<link[^>]*?rel="alternate.*?>/i', $content, $matches)) {
+        if (!preg_match_all('/<link[^>]*?rel=["\']alternate.*?>/i', $content, $matches)) {
             return array();
         }
 

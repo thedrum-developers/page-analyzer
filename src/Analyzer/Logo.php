@@ -16,7 +16,7 @@ class Logo extends BaseAnalyzer
      */
     public function analyze(string $content) : array
     {
-        if (!preg_match_all('/<link[^>]*?rel="(apple-touch-icon|icon).*?>/i', $content, $matches)) {
+        if (!preg_match_all('/<link[^>]*?rel=["\'](apple-touch-icon|icon).*?>/i', $content, $matches)) {
             return array();
         }
 

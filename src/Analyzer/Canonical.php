@@ -17,7 +17,7 @@ class Canonical extends BaseAnalyzer
     public function analyze(string $content) : array
     {
         // Check the page source for a canonical link
-        if (preg_match_all('/<link[^>]*?rel="canonical.*?>/i', $content, $matches)) {
+        if (preg_match_all('/<link[^>]*?rel=["\']canonical.*?>/i', $content, $matches)) {
             $dom = new \DOMDocument();
 
             foreach ($matches[0] as $match) {
