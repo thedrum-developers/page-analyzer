@@ -11,6 +11,31 @@ use Psr\Http\Message\ResponseInterface;
 class Canonical extends BaseAnalyzer
 {
     /**
+     * @param ResponseInterface $response
+     * @return array
+     */
+    public function analyzeResponse(ResponseInterface $response) : array
+    {
+        $content = $this->extractBody($response);
+
+        $canonicalLink = $this->analyze($content);
+
+        if ($canonicalLink) {
+            return $canonicalLink;
+        }
+
+        // Check for any 301's in the response headers
+        $redirects = $response->getHeader(\GuzzleHttp\RedirectMiddleware::HISTORY_HEADER);
+
+        if (!empty($redirects)) {
+            return [ end($redirects) ];
+        }
+
+        // Return empty array if we've not found a canonical link
+        return [];
+    }
+
+    /**
      * @param string $content
      * @return array
      */
@@ -30,13 +55,6 @@ class Canonical extends BaseAnalyzer
                     }
                 }
             }
-        }
-
-        // Check for any 301's in the response headers
-        $redirects = $response->getHeader(\GuzzleHttp\RedirectMiddleware::HISTORY_HEADER);
-
-        if (!empty($redirects)) {
-            return [ end($redirects) ];
         }
 
         // Return empty array if we've not found a canonical link
