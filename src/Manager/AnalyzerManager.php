@@ -30,7 +30,14 @@ class AnalyzerManager implements AnalyzerManagerInterface
      */
     public function __construct()
     {
-        $this->guzzle = new GuzzleClient(['allow_redirects' => ['track_redirects' => true]]);
+        $this->guzzle = new GuzzleClient([
+            'allow_redirects' => [
+                'track_redirects' => true
+            ],
+            'headers' => [
+                'User-Agent' => 'PageAnalyzer 1.0 (ChrisShennan/PageAnalyzer)'
+            ]
+        ]);
     }
 
     /**
