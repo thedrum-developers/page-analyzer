@@ -32,7 +32,6 @@ class MetaData extends BaseAnalyzer
             $data[$name] = $content;
         }
 
-        dump($data);exit;
         return $data;
     }
 }
