@@ -46,7 +46,7 @@ class Canonical extends BaseAnalyzer
             $dom = new \DOMDocument();
 
             foreach ($matches[0] as $match) {
-                $dom->loadHTML($match);
+                $dom->loadHTML('<?xml encoding="UTF-8">' . $match);
 
                 $attributes = array();
                 foreach ($dom->getElementsByTagName('link')->item(0)->attributes as $key => $node) {

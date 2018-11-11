@@ -24,7 +24,7 @@ class MetaData extends BaseAnalyzer
         $dom = new \DOMDocument();
 
         foreach ($matches[0] as $index => $match) {
-            $dom->loadHTML($match);
+            $dom->loadHTML('<?xml encoding="UTF-8">' . $match);
 
             $name = $dom->getElementsByTagName('meta')->item(0)->getAttribute($matches[1][$index]);
             $content = $dom->getElementsByTagName('meta')->item(0)->getAttribute('content');
@@ -32,6 +32,7 @@ class MetaData extends BaseAnalyzer
             $data[$name] = $content;
         }
 
+        dump($data);exit;
         return $data;
     }
 }
